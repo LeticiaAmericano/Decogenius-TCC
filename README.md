@@ -63,7 +63,7 @@ O repositório está dividido em duas pastas principais:
 ## Diagramas
 
 ### Diagrama de Entidade-Relacionamento
-![Diagrama de Entidade-Relacionamento](./App/Diagrama%20de%20Entidade%20e%20Relacionamento.png)
+![Diagrama de Entidade-Relacionamento](./Diagrama%20de%20Entidade%20e%20Relacionamento.png)
 
 ### Diagrama do Formulário de Perguntas
 [Link para o diagrama do formulário de perguntas](https://miro.com/app/board/uXjVPE6ILDA=/?share_link_id=20665834125)
