@@ -1,7 +1,7 @@
 
 # DecoGenius
 
-**DecoGenius** é uma aplicação inovadora que utiliza inteligência artificial para criar e personalizar designs de interiores, oferecendo soluções criativas e adaptadas às preferências dos usuários.
+**DecoGenius** é uma aplicação que utiliza inteligência artificial para criar e personalizar designs de interiores, oferecendo soluções criativas e adaptadas às preferências dos usuários.
 
 ## Estrutura do Projeto
 
