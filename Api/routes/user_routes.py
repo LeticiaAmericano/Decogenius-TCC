@@ -5,9 +5,9 @@ from utils.token import blacklist
 from models import db
 from models.user import User
 
-user_routes = Blueprint('user_routes', __name__)  # Aparece apenas uma vez aqui
+user_routes = Blueprint('user_routes', __name__)  
 
-@user_routes.route('/public/create-user', methods=['POST'])
+@user_routes.route('/public/register', methods=['POST'])
 def create_user():
     data = request.get_json()
 
