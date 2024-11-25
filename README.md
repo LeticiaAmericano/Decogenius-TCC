@@ -68,6 +68,18 @@ O repositório está dividido em duas pastas principais:
 ### Diagrama do Formulário de Perguntas
 [Link para o diagrama do formulário de perguntas](https://miro.com/app/board/uXjVPE6ILDA=/?share_link_id=20665834125)
 
+## Formulários
+
+Durante o desenvolvimento deste projeto, foram criados dois formulários para coleta de feedback e análise:
+
+1. **Usabilidade do ChatGPT para Automação de Design de Interiores**  
+   Este formulário foi utilizado para avaliar como os usuários interagiram com o ChatGPT, focando na usabilidade da automação de design de interiores. Ele inclui perguntas sobre a experiência, o tempo necessário para alcançar os resultados e a satisfação geral.
+
+2. **Avaliação da Aplicação Desenvolvida**  
+   Este formulário foi projetado para coletar feedback sobre a experiência dos usuários ao utilizarem a aplicação desenvolvida, com foco em aspectos como interface, funcionalidades e eficiência na geração de designs.
+
+Os formulários com todas as respostas obtidas podem ser encontrados na pasta `Formulários`
+
 ## Contribuindo
 
 Contribuições são bem-vindas! Para começar:
