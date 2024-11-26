@@ -19,10 +19,9 @@ def process_images_to_base64(form_files):
     count = 0
     for file_key in form_files:
         if count >= 3:
-            break  # Limit to 3 images
+            break  
         file = form_files[file_key]
         if file:
-            # Convert the file to base64 and add the prefix
             base64_image = f"data:image/jpeg;base64,{base64.b64encode(file.read()).decode('utf-8')}"
             base64_images.append(base64_image)
             count += 1
@@ -48,25 +47,20 @@ def create_design():
         questions_answer = defaultdict(str)
         for key in data:
             if key.startswith('questions_answer[') and key.endswith(']'):
-                question_key = key[len('questions_answer['):-1]  # Extract the part inside the brackets
+                question_key = key[len('questions_answer['):-1]  
                 questions_answer[question_key] = data[key]
 
-        # Convert defaultdict to a regular dictionary
         questions_answer = dict(questions_answer)
 
-        # Process uploaded images into base64
         base64_images = process_images_to_base64(request.files)
 
-        # Build OpenAI message content
         messages_content = []
 
-        # Add design information as text
         messages_content.append({
             "type": "text",
             "text": f"Design details: {json.dumps({'name': name, 'room': room, 'questions_answer': questions_answer})}"
         })
 
-        # Add images to the content
         for base64_image in base64_images:
             messages_content.append({
                 "type": "image_url",
@@ -75,15 +69,12 @@ def create_design():
                 }
             })
 
-        # Create the full message for OpenAI
         messages = [
             {
                 "role": "user",
                 "content": messages_content
             }
         ]
-
-        # print(messages)
 
         openai_provider = OpenAIProvider(
             messages=messages,
@@ -92,11 +83,6 @@ def create_design():
             max_tokens=4000,
             model="gpt-4o-mini"
         )
-
-        # Call OpenAI and get the response
-        # json_response = openai_provider.generate_response()
-        # gpt_json = string_to_json(json_response)
-        # print(gpt_json)
 
         gpt_json = {'simple_description': 'The living room transforms into a cozy and modern space, featuring a warm color palette, comfortable seating, and ample natural light, creating an inviting atmosphere.', 'detailed_description': "The redesigned living room exudes a cozy and modern aesthetic, characterized by a harmonious blend of comfort and style. The focal point is a plush, L-shaped sectional sofa upholstered in a soft, light gray fabric, adorned with an array of textured throw pillows in muted earth tones. A sleek, minimalist coffee table made of reclaimed wood sits at the center, providing a rustic touch that complements the modern design. The walls are painted in a warm, neutral tone, enhancing the room's brightness and creating a welcoming ambiance. Large windows draped with sheer, light-filtering curtains allow natural light to flood the space, illuminating the beautiful hardwood flooring with a honeyed finish. In one corner, a stylish floor lamp with a warm glow adds to the cozy atmosphere, while a few potted plants bring a touch of greenery and life to the room. The ceiling features recessed lighting that can be adjusted to create the perfect mood, whether for relaxation or entertaining guests. Overall, this living room design perfectly balances modern elegance with a cozy, inviting feel."}
 
@@ -111,14 +97,8 @@ def create_design():
             model="dall-e-3"
         )
 
-        # img = openai_provider.generate_image()
-        # print(img)
-        # img = 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-CybC5hdKCMR4ufnfPLq2Fuzh/user-5uOYOoqkzVDblhdAA2rLjtkS/img-9x2l8TEZ5IMDvLpHpBkPstmu.png?st=2024-11-23T23%3A39%3A31Z&se=2024-11-24T01%3A39%3A31Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-11-24T00%3A25%3A46Z&ske=2024-11-25T00%3A25%3A46Z&sks=b&skv=2024-08-04&sig=xUIBkBK5rnJLz5uBQakz72TgfFmy5B4oHTJG2WKSuEY%3D'
-
-        # img_base64 = convert_image_to_base64_url(img)
-
         img_base64 = ''
-        with open(os.path.join(os.getcwd(), 'img_base64.txt'), 'r') as file:  # Renamed variable to avoid conflict
+        with open(os.path.join(os.getcwd(), 'img_base64.txt'), 'r') as file: 
             img_base64 = file.read()
 
         if img_base64.startswith("data:image/png;base64,"):
@@ -187,11 +167,10 @@ def view_designs():
 
         designs_list = []
         for design in designs:
-            # Query responses and photos associated with the design
+          
             responses = DesignResponse.query.filter_by(design_id=design.id).all()
             photos = DesignResponsePhoto.query.filter_by(design_id=design.id).all()
 
-            # Convert photo blobs to Base64 strings
             photos_list = [
                 {
                     'code': photo.code,
@@ -200,7 +179,6 @@ def view_designs():
                 for photo in photos
             ]
 
-            # Build the design dictionary
             designs_list.append({
                 'id': design.id,
                 'name': design.name,
@@ -242,4 +220,27 @@ def update_like():
 
     except Exception as e:
         db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@design_routes.route('/item-list', methods=['GET'])
+@jwt_required()  
+def item_list():
+    user_id = get_jwt_identity()
+
+    try:
+        designs = Design.query.filter_by(user_id=user_id).all()
+
+        if not designs:
+            return jsonify({'message': 'No designs found'}), 404
+
+        design_list = []
+        for design in designs:
+            design_list.append({
+                'name': design.name,
+                'room': design.room,
+                'gpt_photo': base64.b64encode(design.gpt_photo).decode('utf-8') if design.gpt_photo else None
+            })
+  
+        return jsonify({'designs': design_list}), 200
+    except Exception as e:
         return jsonify({'error': str(e)}), 500

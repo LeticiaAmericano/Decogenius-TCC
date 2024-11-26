@@ -55,7 +55,6 @@ def login():
         'access_token': access_token
     }), 200
 
-# Rota de logout
 @user_routes.route('/private/logout', methods=['POST'])
 @jwt_required()
 def logout():

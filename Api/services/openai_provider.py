@@ -60,4 +60,3 @@ class OpenAIProvider:
         )
 
         return response.data[0].url
-        return 'teste'
