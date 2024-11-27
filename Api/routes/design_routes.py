@@ -11,7 +11,6 @@ import json
 import base64
 from services.openai_provider import OpenAIProvider
 from utils.model_system_instructions import model_system_instructions
-from utils.utils import convert_image_to_base64_url, string_to_json
 from datetime import datetime
 
 def process_images_to_base64(form_files):
@@ -236,11 +235,41 @@ def item_list():
         design_list = []
         for design in designs:
             design_list.append({
+                'design_id': design.id,
                 'name': design.name,
                 'room': design.room,
                 'gpt_photo': base64.b64encode(design.gpt_photo).decode('utf-8') if design.gpt_photo else None
             })
   
         return jsonify({'designs': design_list}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+@design_routes.route('/view-answer', methods=['POST'])
+@jwt_required()  
+def view_answer():
+    try:
+        data = request.get_json()
+        design_id = data.get('design_id')
+
+        if not design_id:
+            return jsonify({'error': 'O ID do design é obrigatório.'}), 400
+
+        design = Design.query.filter_by(id=design_id).first()
+
+        if not design:
+            return jsonify({'error': 'Design não encontrado.'}), 404
+
+        gpt_photo_base64 = None
+        if design.gpt_photo:
+            gpt_photo_base64 = base64.b64encode(design.gpt_photo).decode('utf-8')
+
+        return jsonify({
+            'name': design.name,
+            'gpt_description': design.gpt_description,
+            'gpt_photo': gpt_photo_base64
+        }), 200
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
