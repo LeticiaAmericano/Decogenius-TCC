@@ -1,0 +1,50 @@
+# Diretórios padrão
+node_modules/
+android/
+ios/
+build/
+
+# Diretórios de cache e temporários
+.yarn/
+.bundle/
+__tests__/
+.yarnrc.yml
+
+# Cache do Metro bundler
+/metro-cache/
+/react-native-pods/
+
+# Arquivos de lock e temporários
+*.log
+*.tmp
+*.lock
+*.pid
+*.seed
+
+# Arquivos do sistema e IDEs
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
+
+# Saída de build do Android e iOS
+android/app/build/
+ios/Pods/
+ios/build/
+
+# Arquivos gerados para desenvolvimento local
+*.xcworkspace
+*.xcuserstate
+*.keystore
+android/key.properties
+
+# Configuração de testes (se houver)
+coverage/
+
+# Configurações específicas do ESLint ou Prettier
+.eslintcache
+.prettierrc.*
+
+# Arquivo de ambiente
+.env
+.env.*
