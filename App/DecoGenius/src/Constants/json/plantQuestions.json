@@ -1,0 +1,137 @@
+{
+    "loop": {
+        "Q_01": {
+            "title": "Qual cômodo você deseja cadastrar?",
+            "options": {
+                "type": "SelectInput",
+                "options": [
+                    "Sala",
+                    "Quarto",
+                    "Cozinha",
+                    "Banheiro",
+                    "Escritório",
+                    "Sala de jantar",
+                    "Área externa",
+                    "Quarto infantil",
+                    "Lavanderia",
+                    "Hall de entrada"
+                ]
+            }
+        },
+        "Q_02": {
+            "title": "Insira a largura da parede esquerda (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_03": {
+            "title": "Insira a altura da parede esquerda (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_04": {
+            "title": "Insira a largura da parede da direita (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_05": {
+            "title": "Insira a altura da parede da direita (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_06": {
+            "title": "Insira a largura da parede inferior (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_07": {
+            "title": "Insira a altura da parede inferior (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_08": {
+            "title": "Insira a largura da parede superior (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_09": {
+            "title": "Insira a altura da parede superior (em cm):",
+            "options": {
+                "type": "SimpleInput",
+                "options": []
+            }
+        },
+        "Q_10": {
+            "title": "Quantas portas existem no cômodo?",
+            "options": {
+                "type": "SelectInput",
+                "options": ["0", "1", "2", "3", "Mais de 3"]
+            }
+        },
+        "loop": {
+            "Q_11": {
+                "title": "Em qual parede está localizada a porta?",
+                "options": {
+                    "type": "SelectInput",
+                    "options": ["Parede esquerda", "Parede direita", "Parede inferior", "Parede superior"]
+                }
+            },
+            "Q_12": {
+                "title": "Qual é a largura da porta (em cm)?",
+                "options": {
+                    "type": "SimpleInput",
+                    "options": []
+                }
+            },
+            "Q_13": {
+                "title": "Qual é a altura da porta (em cm)?",
+                "options": {
+                    "type": "SimpleInput",
+                    "options": []
+                }
+            },
+            "Q_14": {
+                "title": "A quantos cm do canto esquerdo da parede a porta está localizada?",
+                "options": {
+                    "type": "SimpleInput",
+                    "options": []
+                }
+            },
+            "Q_15": {
+                "loop": 1,
+                "title": "Gostaria de adicionar outra porta?",
+                "options": {
+                    "type": "SelectInput",
+                    "options": ["Sim", "Não"]
+                }
+            }
+        },
+        "Q_16": {
+            "loop": 1,
+            "title": "Gostaria de adicionar outra porta?",
+            "options": {
+                "type": "SelectInput",
+                "options": ["Sim", "Não"]
+            }
+        }
+    },
+    "Q_17": {
+        "title": "Você gostaria de enviar imagens do cômodo?",
+        "options": {
+            "type": "file_upload"
+        }
+    }
+}
