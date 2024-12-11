@@ -6,6 +6,8 @@ import type { ILabelText } from '../../../Interfaces/Components/Input/ITemplateI
 export const SelectInputContainer = styled.View<IMultSelectInputStyleProps>`
     min-height: ${({ height }: IMultSelectInputStyleProps) =>
         height != null ? height : 86}px;
+    width: 100%;
+    padding-top: 15px;
 `;
 
 export const ListContainer = styled.View<IMultSelectInputStyleProps>`

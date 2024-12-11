@@ -23,19 +23,18 @@ const MultSelectInput: React.FC<IMultSelectInputProps<string>> = ({
     textColor = Colors.primary,
     errorMessages,
 }: IMultSelectInputProps<string>) => {
-    // Lida com a adição de opções selecionadas
+
     const handleSelectValue = (value: string): void => {
         const selectedOption = options.find((option) => option.value === value);
         if (selectedOption && !selectedOptions.some((opt) => opt.value === value)) {
             const updatedOptions = [...selectedOptions, selectedOption];
-            setSelectedOptionsState(updatedOptions); // Atualiza as opções selecionadas
+            setSelectedOptionsState(updatedOptions); 
         }
     };
 
-    // Lida com a remoção de opções
     const handleRemoveOption = (index: number): void => {
         const updatedOptions = selectedOptions.filter((_, i) => i !== index);
-        setSelectedOptionsState(updatedOptions); // Atualiza as opções selecionadas
+        setSelectedOptionsState(updatedOptions); 
     };
 
     return (

@@ -14,7 +14,7 @@ export const LabelText = styled.Text`
 `;
 
 export const SelectContainer = styled.Pressable<ISelectStyles>`
-    flex: 1;
+    height: 50px;
     justify-content: ${(props: ISelectStyles) =>
         props.hideIcon ? 'flex-start' : 'space-between'};
     align-items: center;
