@@ -7,7 +7,6 @@ import { iconFontSizes, iconMap, IconSizes } from '../../Libs/ExternalIconsLibra
 const Icon: React.FC<IIcon> = ({
     iconFamily,
     name,
-    color,
     size = IconSizes.small
 }: IIcon) => {
     const icon = iconMap[iconFamily];

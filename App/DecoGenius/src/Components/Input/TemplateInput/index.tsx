@@ -1,10 +1,7 @@
 import React from 'react';
 import Colors from '../../../Constants/Colors';
-import { IconSizes, IconsTypes } from '../../../Libs/ExternalIconsLibrary';
-import Icon from '../../Icon';
 import {
     ContainerError,
-    ContainerIcon,
     ContainerText,
     ErroText,
     InputText,
@@ -49,12 +46,12 @@ const TemplateInput = ({
                 mainColor={mainColor ?? Colors.primary}>
 
                 {labelText && (
-                                <LabelText
-                                    fontSize={labelTextFontSize}
-                                    labelColor={labelColor ?? Colors.gray[900]}>
-                                    {labelText}
-                                </LabelText>
-                            )}
+                    <LabelText
+                        fontSize={labelTextFontSize}
+                        labelColor={labelColor ?? Colors.gray[900]}>
+                        {labelText}
+                    </LabelText>
+                )}
 
                 <InputText
                     {...rest}
@@ -65,17 +62,6 @@ const TemplateInput = ({
                     hasIcon={!!iconName}
                     autoCorrect={autoCorrect}
                 />
-                {iconName && (
-                    <ContainerIcon
-                        width={containerIconWidth}
-                        onPress={onIconPress}>
-                        <Icon
-                            name={iconName}
-                            iconFamily={IconsTypes.fontAwesome}
-                            size={IconSizes.extraSmall}
-                        />
-                    </ContainerIcon>
-                )}
             </ContainerText>
             {errorMessage && (
                 <ContainerError>

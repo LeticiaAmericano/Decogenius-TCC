@@ -4,7 +4,7 @@ import Colors from '../../Constants/Colors';
 import { HeaderConstants } from '../../Constants/Components/Header';
 import NavigateConstants from '../../Constants/Navigate';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCoffee, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import type IHeader from '../../Interfaces/Components/IHeader';
 import { Container, ContainerArrowBack, ContainerLogout, SubHeader, Text } from './styles';
 import {logoutRequest} from '../../Services/apiService.tsx';
@@ -41,12 +41,14 @@ const Header = ({
         <Container>
             <ContainerArrowBack onPress={arrowBackOnPress}>
                 {backButton && (
-                    <FontAwesomeIcon icon={faArrowLeft} size={24} color={Colors.gray[100]} />
+                    <FontAwesomeIcon icon={faChevronLeft} size={24} color={Colors.gray[100]} />
                 )}
             </ContainerArrowBack>
             <Text>{title ?? HeaderConstants.title}</Text>
             <ContainerLogout onPress={iconLogoutOnPress}>
-                {hasLogout && <SubHeader>Log out</SubHeader>}
+                {hasLogout && (
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} size={24} color={Colors.gray[100]} />
+                )}
             </ContainerLogout>
         </Container>
     );
