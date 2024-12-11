@@ -12,11 +12,10 @@ O repositório está dividido em duas pastas principais:
 
 ## Tecnologias Utilizadas
 
-- **Frontend**: [Detalhes do framework utilizado, se aplicável]
+- **Frontend**: React Native
 - **Backend**: Python com Flask
 - **Banco de Dados**: PostgreSQL
-- **Infraestrutura**: [Descrever se há algo como Docker, AWS, etc.]
-
+- **Infraestrutura**: Docker
 ## Instalação
 
 1. Clone o repositório:
