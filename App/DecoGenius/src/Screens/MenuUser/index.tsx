@@ -87,7 +87,7 @@ const MenuUser: React.FC = (): JSX.Element => {
 
     const FooterButtonPress: () => void = () =>
         navigation.navigate(
-            NavigateConstants.Answer,
+            NavigateConstants.Forms,
         );
 
     if (loading) return <Loading />;

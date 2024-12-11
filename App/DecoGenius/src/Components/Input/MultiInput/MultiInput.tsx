@@ -13,8 +13,8 @@ const MultiInput = ({
     values,
     setValues,
     editable = true,
-    textColor = Colors.black,
-    mainColor = Colors.white,
+    textColor = Colors.primary,
+    mainColor = Colors.gray[100],
     ...rest
 }: Readonly<IMultiInputProps>): ReactElement => {
     const [inputValue, setInputValue] = useState<string>('');

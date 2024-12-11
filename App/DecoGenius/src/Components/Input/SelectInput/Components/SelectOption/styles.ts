@@ -11,15 +11,16 @@ export const SelectOptionContainer = styled.Pressable<SelectOptionContainerProps
     width: 100%;
     flex-direction: row;
     align-items: center;
-    background-color: ${({ backgroundColor }: SelectOptionContainerProps) =>
-        backgroundColor ? backgroundColor : Colors.white};
+    background-color: ${ Colors.gray[200]};
     padding: 16px 4px;
     border-bottom-width: 1px;
-    border-color: ${Colors.gray};
+    border-color: ${Colors.gray[100]};
+    border-radius: 5px 0 5px 0;
 `;
 
 export const SelectOptionText = styled.Text`
-    font-size: 18px;
-    color: ${Colors.black};
+    font-size: 15px;
+    color: ${Colors.primary};
     margin-left: 10px;
+    font-family: 'ChakraPetch-Regular';
 `;

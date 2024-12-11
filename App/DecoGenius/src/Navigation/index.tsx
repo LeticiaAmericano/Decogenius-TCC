@@ -6,7 +6,7 @@ import SignIn from '../Screens/SignIn';
 import SignUp from '../Screens/SignUp';
 import MenuUser from '../Screens/MenuUser';
 import Answer from '../Screens/Answer';
-import Forms from '../Screens/Forms'
+import Forms from '../Screens/Forms';
 
 
 const Stack = createNativeStackNavigator();

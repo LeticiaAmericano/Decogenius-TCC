@@ -47,11 +47,6 @@ export interface SelectOptionContainerProps {
     backgroundColor?: string;
 }
 
-export interface ILabelText {
-    fontSize: number;
-    labelColor?: string;
-}
-
 export interface IStyledContainerTextProps {
     mainColor?: string;
     straightBottomBorderRadius?: boolean;

@@ -8,5 +8,5 @@ export interface IErrorModalState {
 
 export interface IErrorModal {
     errorModalState: IErrorModalState;
-    setErrorModalState: Dispatch<SetStateAction<IErrorModalState>>;
+    setErrorModalState: any;
 }

@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import React, { useState } from 'react';
 import Colors from '../../Constants/Colors';
-import NavigateConstants from '../../Constants/Navigate';
 import PasswordInput from '../../Components/Input/PasswordInput';
 import SimpleInput from '../../Components/Input/SimpleInput';
 import ErrorModal from '../../Components/Modal/ErrorModal';
@@ -16,6 +15,7 @@ import { ErrorModalConstants } from '../../Constants/Components/ErrorModal';
 import SignInConstants from '../../Constants/Screens/SignIn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {loginRequest} from '../../Services/apiService';
+import NavigateConstants from '../../Constants/Navigate';
 
 const SignIn: React.FC = (): JSX.Element => {
     const navigation = useNavigation();

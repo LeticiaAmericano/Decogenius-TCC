@@ -76,40 +76,32 @@
         }
     },
     "Q_06": {
-        "title": "Quais elementos você gostaria de incluir?",
+        "title": "Você possui móveis ou itens que deseja manter no ambiente?",
         "options": {
-            "type": "MultSelectInput",
+            "type": "SelectInput",
             "options": [
-                "Aparador",
-                "Cabideiro",
-                "Banco ou assento",
-                "Espelho",
-                "Tapete",
-                "Porta-chaves"
+                "Sim",
+                "Não"
             ]
         }
     },
     "Q_07": {
-        "title": "Você possui ou planeja ter quais equipamentos?",
+        "title": "Especifique",
         "options": {
-            "type": "MultSelectInput",
-            "options": [
-                "Máquina de lavar",
-                "Secadora",
-                "Tanque",
-                "Lava e seca"
-            ]
+            "type": "SimpleInput",
+            "options": []
         }
     },
     "Q_08": {
-        "title": "Quais são as necessidades de armazenamento?",
+        "title": "Qual é o seu orçamento estimado para este projeto? ",
         "options": {
-            "type": "MultSelectInput",
+            "type": "SelectInput",
             "options": [
-                "Armários superiores",
-                "Armários inferiores",
-                "Prateleiras",
-                "Cabideiros"
+                "Até R$5.000",
+                "R$5.000 - R$10.000",
+                "R$10.000 - R$20.000",
+                "Mais de R$20.000",
+                "Prefiro não informar"
             ]
         }
     },

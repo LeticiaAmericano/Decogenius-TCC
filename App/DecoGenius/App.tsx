@@ -18,15 +18,4 @@ const App: React.FC = () => (
   </SafeAreaView>
 );
 
-
-//const App: React.FC = () => (
-//  <SafeAreaView style={GlobalStyle.global}>
-//  <ConfigProvider>
-//      <AuthProvider>
-//          <Navigation />
-//      </AuthProvider>
-//  </ConfigProvider>
-//</SafeAreaView>
-//);
-
 export default App;

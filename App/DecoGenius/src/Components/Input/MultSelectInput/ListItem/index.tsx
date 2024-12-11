@@ -1,18 +1,11 @@
-// React
 import React from 'react';
-
-// Constants
 import {
     IconsConstants,
     IconSizes,
     IconsTypes
 } from '../../../../Libs/ExternalIconsLibrary';
-
-// Interfaces
 import type { ReactElement } from 'react';
 import type { IListItemProps } from '../../../../Interfaces/Components/IMultiInput';
-
-// Components
 import Colors from '../../../../Constants/Colors';
 import Icon from '../../../Icon';
 import { IconContainer, ListComponent, ListValue } from './styles';
@@ -32,7 +25,7 @@ const ListItem = ({
                     name={IconsConstants.antDesign.close}
                     iconFamily={IconsTypes.antDesign}
                     size={IconSizes.extraSmall}
-                    color={Colors.black}
+                    color={Colors.primary}
                 />
             </IconContainer>
         )}

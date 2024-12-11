@@ -9,8 +9,6 @@ export interface IMultSelectInputProps<Tvalue>
     selectedOptions: ISelectOption<Tvalue>[];
     setSelectedOptionsState: (value: ISelectOption<string>[]) => void;
     height?: number;
-    otherOptionInputValues: string[];
-    setOtherOptionInputValues: (value: string[]) => void;
     externalSelectOptionHandler?: (value: ISelectOption<string>[]) => void;
     errorMessages?: {
         selectError: string | undefined;

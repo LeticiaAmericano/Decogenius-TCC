@@ -6,7 +6,7 @@ import { ExternalStylingLibrary as styled } from '../../Libs/ExternalStylingLibr
 
 export const Container = styled.TouchableOpacity<IContainerFooter>`
     width: 100%;
-    height: 50px;
+    height: 60px;
     align-items: center;
     justify-content: center;
     flex-direction: row;

@@ -35,8 +35,8 @@ export const Title = styled.Text`
 `;
 
 export const InputArea = styled.View`
-    height: 100%;
-    width: 99%;
+    height: 90%;
+    width: 100%;
     padding: 20px;
     flex-wrap: wrap;
     flex-direction: row;
@@ -64,5 +64,13 @@ export const LinkText = styled.Text`
     font-size: 12px;
     color: ${Colors.gray[100]};
     text-align: center;
-    margin: 15px 0 15px 0;
+    margin: 12% 0 4% 0;
+`;
+
+export const FooterContainer = styled.View`
+    height: 14%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `;

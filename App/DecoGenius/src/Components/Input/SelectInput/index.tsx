@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, Modal } from 'react-native';
+import { FlatList, Modal, Text } from 'react-native';
 import Icon from '../../Icon';
 import SelectOption from './Components/SelectOption';
 import Colors from '../../../Constants/Colors';
@@ -29,7 +29,6 @@ import {
 } from './styles';
 
 const SelectInput = <TValue,>({
-    label,
     setSelectValue,
     defaultValue = undefined,
     labelOption,
@@ -58,20 +57,13 @@ const SelectInput = <TValue,>({
         useCallback(
             (option: ISelectOption<TValue>): void => {
                 setToggleDropdown(false);
-                setSelected(option);
-                setSelectValue(option.value);
+                if (option.value != selected?.value) {
+                    setSelected(option);
+                    setSelectValue(option.value);
+                }
             },
             [setSelectValue]
         );
-
-    useEffect(() => {
-        if (defaultValue !== null) {
-            setSelected(findOption(options, defaultValue));
-        }
-    }, [defaultValue, options]);
-
-    const labelTextFontSize: number =
-        screenWidth <= ScreenSizeConstants.phone.maxSize ? 2.5 : 2;
 
     return (
         <>
@@ -102,45 +94,18 @@ const SelectInput = <TValue,>({
                     </OptionsContainer>
                 </SelectModalContainer>
             </Modal>
-
-            {label && (
-                <LabelText
-                    labelColor={styles?.labelColor}
-                    fontSize={labelTextFontSize}>
-                    {label}
-                    {rest.required && '*'}
-                </LabelText>
-            )}
+            
+            <LabelText>{rest.label}</LabelText>
+        
             <SelectContainer
                 flatBottomBorder={flatBottomBorder}
                 onPress={toggleSelect}
                 backgroundColor={styles?.backgroundColor}
                 isOpened={toggleDropdown}
                 hideIcon={rest.hideIcon}>
-                <SelectText
-                    labelColor={styles?.optionColor ?? styles?.labelColor}
-                    align={textAlign}>
-                    {selected?.label ?? labelOption?.label}
+                <SelectText>
+                    {selected?.label}
                 </SelectText>
-                {!rest.hideIcon && (
-                    <>
-                        {toggleDropdown ? (
-                            <Icon
-                                name={IconsConstants.antDesign.chevronUp}
-                                size={IconSizes.extraSmall}
-                                iconFamily={IconsTypes.antDesign}
-                                color={Colors.black}
-                            />
-                        ) : (
-                            <Icon
-                                name={IconsConstants.antDesign.chevronDown}
-                                size={IconSizes.extraSmall}
-                                iconFamily={IconsTypes.antDesign}
-                                color={Colors.black}
-                            />
-                        )}
-                    </>
-                )}
             </SelectContainer>
             {errorMessage && (
                 <ContainerError>

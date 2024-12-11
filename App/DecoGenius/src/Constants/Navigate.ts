@@ -4,5 +4,6 @@ export enum NavigateConstants {
     SignUp = 'SignUp',
     MenuUser = 'MenuUser',
     Answer = 'Answer',
-}
+    Forms = 'Forms',
+} 
 export default NavigateConstants;

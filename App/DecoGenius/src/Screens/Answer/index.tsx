@@ -25,6 +25,7 @@ import {answerRequest} from '../../Services/apiService.tsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Footer from '../../Components/Footer/index.tsx';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
+import NavigateConstants from '../../Constants/Navigate.ts';
 
 
 const Answer: React.FC = ({

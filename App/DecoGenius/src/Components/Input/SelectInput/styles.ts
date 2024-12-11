@@ -1,23 +1,16 @@
-// Libs
-import { ExternalResponsiveFontSize } from '../../../Libs/ExternalResponsiveFontSize';
 import { ExternalStylingLibrary as styled } from '../../../Libs/ExternalStylingLibrary/ExternalStylingLibrary';
-
-// interfaces
 import type {
-    ILabelText,
     ISelectStyles
 } from '../../../Interfaces/Components/Input/ISelectInput';
-
-// constants
 import Colors from '../../../Constants/Colors';
 
-export const LabelText = styled.Text<ILabelText>`
-    color: ${(props: ILabelText) => props.labelColor ?? Colors.black};
-    font-size: ${(props: ILabelText) =>
-        ExternalResponsiveFontSize.percentage(props.fontSize) ??
-        ExternalResponsiveFontSize.percentage(3)}px;
+export const LabelText = styled.Text`
+    color: ${Colors.primary};
+    font-size: 16px;
     align-self: flex-start;
     width: 100%;
+    margin-bottom: 6px;
+    font-family: 'ChakraPetch-SemiBold';
 `;
 
 export const SelectContainer = styled.Pressable<ISelectStyles>`
@@ -28,24 +21,26 @@ export const SelectContainer = styled.Pressable<ISelectStyles>`
     flex-direction: row;
     padding: 4px;
     background-color: ${(props: ISelectStyles) =>
-        props.backgroundColor ?? Colors.blue};
+        props.backgroundColor ?? Colors.gray[200]};
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: ${(props: ISelectStyles) =>
-        props.isOpened || props.flatBottomBorder ? 0 : 5}px;
+        props.isOpened || props.flatBottomBorder ? 5 : 5}px;
     border-bottom-right-radius: ${(props: ISelectStyles) =>
-        props.isOpened || props.flatBottomBorder ? 0 : 5}px;
+        props.isOpened || props.flatBottomBorder ? 5 : 5}px;
     border-bottom-color: ${(props: ISelectStyles) =>
-        props.isOpened ? Colors.gray : 'transparent'};
+        props.isOpened ? Colors.gray[200] : 'transparent'};
     border-bottom-width: ${(props: ISelectStyles) =>
         props.isOpened ? 1 : 0}px;
 `;
 
-export const SelectText = styled.Text<ISelectStyles>`
-    font-size: 18px;
+export const SelectText = styled.Text`
+    font-size: 16px;
     flex: 1;
-    color: ${(props: ISelectStyles) => props.labelColor ?? Colors.blueOcean};
-    text-align: ${(props: ISelectStyles) => props.align ?? 'left'};
+    color: ${Colors.primary};
+    text-align: left;
+    font-family: 'ChakraPetch-Regular';
+    padding-left: 5px;
 `;
 
 export const SelectModalContainer = styled.Pressable`
@@ -68,5 +63,5 @@ export const ContainerError = styled.View`
 `;
 
 export const ErroText = styled.Text`
-    color: ${Colors.warning};
+    color: ${Colors.red[500]};
 `;

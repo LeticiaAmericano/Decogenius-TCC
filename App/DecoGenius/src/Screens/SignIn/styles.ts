@@ -16,7 +16,7 @@ export const Container = styled.View`
 export const LoginContainer = styled.View`
     justify-content: center;
     align-items: center;
-    height: 80%;
+    height: 92%;
     width: 100%;
 `;
 

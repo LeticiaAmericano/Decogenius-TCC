@@ -27,6 +27,7 @@ import Icon from '../../Components/Icon';
 import { IconsConstants, IconsTypes } from '../../Libs/ExternalIconsLibrary';
 import {
     BodyContainer,
+    FooterContainer,
     HeaderContainer,
     IconPressable,
     InputArea,
@@ -158,7 +159,7 @@ const SignUp: React.FC = () => {
                         errors,
                     }: ISignUpForm) => (
                         <>
-                             <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+                             <ScrollView>
                                 <InputArea>
             
                                     <SimpleInputContainer paddingTop={0}>
@@ -262,20 +263,21 @@ const SignUp: React.FC = () => {
                                     </SimpleInputContainer>
                                 </InputArea>
                             </ScrollView>
-                            
-                            <LinkText
-                                    onPress={createNewUserHandlePress}>
-                                    {SignUpConstants.links}
-                            </LinkText>
+                            <FooterContainer>
+                                <LinkText
+                                        onPress={createNewUserHandlePress}>
+                                        {SignUpConstants.links}
+                                </LinkText>
 
-                            <Footer
-                                buttonPress={handleSubmit}
-                                textColor={Colors.primary}
-                                backgroundColor={Colors.gray[100]}
-                                title={
-                                    SignUpConstants.signButton.placeholders.register
-                                }
-                            />
+                                <Footer
+                                    buttonPress={handleSubmit}
+                                    textColor={Colors.primary}
+                                    backgroundColor={Colors.gray[100]}
+                                    title={
+                                        SignUpConstants.signButton.placeholders.register
+                                    }
+                                />
+                            </FooterContainer>
                             
                         </>
                     )}
