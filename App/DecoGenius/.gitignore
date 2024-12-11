@@ -1,7 +1,5 @@
 # Diretórios padrão
 node_modules/
-android/
-ios/
 build/
 
 # Diretórios de cache e temporários

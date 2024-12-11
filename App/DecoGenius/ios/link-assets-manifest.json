@@ -1,0 +1,45 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-Bold.ttf",
+      "sha1": "2ac71b32044a6325b1c7042583099b3c743f78ac"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-BoldItalic.ttf",
+      "sha1": "a873631e626ecb3b6678f26753c4f034b69f1196"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-Italic.ttf",
+      "sha1": "a309fd4c59e51dd800b62aa48d4632f5508d53fd"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-Light.ttf",
+      "sha1": "9349cfaaad8e5b443f959f9ec85d06cfa14bfaf2"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-LightItalic.ttf",
+      "sha1": "b1ccdf61d880a2e7290be028fa77d2822b94abf2"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-Medium.ttf",
+      "sha1": "47c2adf99cc286e5e2c8394185f0738878c5c504"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-MediumItalic.ttf",
+      "sha1": "e02c0a97788d77b875fe22e098d872bcc557f1ae"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-Regular.ttf",
+      "sha1": "934a68bd78f594e3c6eed5258322bd4da514a22a"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-SemiBold.ttf",
+      "sha1": "de338a072742309afffa27d1cb5f722cd42530ea"
+    },
+    {
+      "path": "src/Assets/Fonts/ChakraPetch-SemiBoldItalic.ttf",
+      "sha1": "d3ef0667587ebfbd30b7e50f4fc21244df77b8e5"
+    }
+  ]
+}
