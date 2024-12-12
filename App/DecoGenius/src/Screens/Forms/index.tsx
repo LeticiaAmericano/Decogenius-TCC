@@ -11,6 +11,10 @@ import hierarchicalData from '../../Constants/json/hierarchical.json';
 import Header from '../../Components/Header/index.tsx';
 import Loading from '../../Components/Loading/index.tsx';
 import FormInput from '../../Components/Input/FormInput/index.tsx';
+import { CreateDesignRequest } from '../../Services/apiService.tsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigateConstants } from '../../Constants/Navigate.ts';
+import { useNavigation } from '@react-navigation/native';
 
 const Forms: React.FC = (): JSX.Element => {
 
@@ -35,9 +39,63 @@ const Forms: React.FC = (): JSX.Element => {
 
     const [visibleQuestions, setVisibleQuestions] = useState(initialQuestionKeys);
 
+    const navigation = useNavigation();
+
     const initialValues = {};
 
-    const handleForm = (values) => {};
+    const formatFormValues = (values: any) => {
+        const formattedData = {
+            name: `${values.Q_01}`,
+            room: values.Q_01 || '',
+            questions_answer: {}
+        };
+        
+        Object.entries(values).forEach(([key, value]) => {
+            if (key !== 'name') {
+                if (Array.isArray(value)) {
+                    formattedData.questions_answer[key] = value.join(', ');
+                } else {
+                    formattedData.questions_answer[key] = value;
+                }
+            }
+        });
+        
+        if (values.Q_65 && Array.isArray(values.Q_65)) {
+            formattedData.photos = values.Q_65.map((uri: string, index: number) => ({
+                uri: uri,
+                name: `photo${index}`,
+                type: 'image/jpeg'
+            }));
+        }
+        
+        return formattedData;
+    };
+
+    const CreateDesignOnSucess = (response:any) => {
+        navigation.navigate(NavigateConstants.Answer); 
+    }
+
+    const CreateDesignOnError = (error:any) => {
+        console.log(error);
+    }
+
+    const handleForm = async (values) => {
+        try {
+            const token = await AsyncStorage.getItem('access_token');
+            const formattedData = formatFormValues(values);
+            
+            await CreateDesignRequest(
+                { 
+                    token, 
+                    formattedData
+                }, 
+                CreateDesignOnSucess, 
+                CreateDesignOnError
+            );
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
 
     function insertAfter(array, item, newItems) {
         const index = array.indexOf(item);
@@ -56,10 +114,8 @@ const Forms: React.FC = (): JSX.Element => {
         <Formik
             initialValues={initialValues}
             onSubmit={handleForm}
-            enableReinitialize={true}
             validateOnChange={false}>
             {({
-                handleChange,
                 handleSubmit,
                 isSubmitting,
                 setFieldValue,

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://192.168.18.50:5000"
+const url = "http://192.168.0.9:5000"
 
 export const loginRequest = async (values:object, loginAuthorized:any, loginUnauthorized:any) => {
     await axios.post(url + '/public/login', values)  
@@ -53,3 +53,13 @@ export const logoutRequest = async (values: any, logoutAuthorized: any) => {
             throw error;
         });
 };
+
+export const CreateDesignRequest = async (values:any, onSucess:any, onError:any) => {
+    return await axios.post(url + '/private/create-design', values.formattedData, {
+        headers: {
+            Authorization: `Bearer ${values.token}`,
+        },
+    })
+    .then(onSucess)
+    .catch(onError);
+}

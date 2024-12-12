@@ -44,12 +44,15 @@ const MenuUser: React.FC = (): JSX.Element => {
                 setLoading(false);
             }
             catch (err) {
+                setLoading(false);
+                if (err.response.status === 404) {
+                    return;
+                }
                 setErrorModalState({
                     visibility: true,
                     modalBody: ErrorModalConstants.errorTexts.loginNotAuthorizedText,
                     modalErrorStackTrace: undefined
-                });
-                setLoading(false);
+                });   
             }
         };
 

@@ -9,7 +9,7 @@ export const Container = styled.ScrollView`
 `;
 
 export const ContainerBody = styled.View`
-    height: 83%;
+    height: 85%;
     width: 90%;
     align-items: center;
     justify-content: space-between;

@@ -34,7 +34,23 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @jwt_required()
 def create_design():
     user_id = get_jwt_identity()
-    data = request.form
+    
+    # Verifica se os dados vieram como JSON
+    if request.is_json:
+        data = request.get_json()
+        # Converte o formato do questions_answer para o formato esperado
+        questions_answer = {
+            k: v for k, v in data.get('questions_answer', {}).items()
+        }
+    else:
+        # Mantém o comportamento original para form-data
+        data = request.form
+        questions_answer = defaultdict(str)
+        for key in data:
+            if key.startswith('questions_answer[') and key.endswith(']'):
+                question_key = key[len('questions_answer['):-1]  
+                questions_answer[question_key] = data[key]
+        questions_answer = dict(questions_answer)
 
     if not data.get('name') or not data.get('room'):
         return jsonify({'error': 'Missing required fields: name or room'}), 400
@@ -43,22 +59,14 @@ def create_design():
         name = data.get('name')
         room = data.get('room')
 
-        questions_answer = defaultdict(str)
-        for key in data:
-            if key.startswith('questions_answer[') and key.endswith(']'):
-                question_key = key[len('questions_answer['):-1]  
-                questions_answer[question_key] = data[key]
-
-        questions_answer = dict(questions_answer)
-
-        base64_images = process_images_to_base64(request.files)
-
         messages_content = []
 
         messages_content.append({
             "type": "text",
             "text": f"Design details: {json.dumps({'name': name, 'room': room, 'questions_answer': questions_answer})}"
         })
+
+        base64_images = process_images_to_base64(request.files)
 
         for base64_image in base64_images:
             messages_content.append({

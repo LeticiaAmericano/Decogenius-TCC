@@ -19,7 +19,7 @@ export const StyledKeyboardAvoidingView = styled.KeyboardAvoidingView`
 
 export const ContainerBody = styled.View`
     width: 100%;
-    height: 82%;
+    height: 84%;
     margin: 5px;
 `;
 
