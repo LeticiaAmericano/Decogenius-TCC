@@ -11,12 +11,6 @@ import type { ISearchInput } from '../../Interface/ISearchInput';
 
 const SearchInput = ({ value, onUpdate }: ISearchInput): JSX.Element => (
     <Container>
-        <ContainerIcon>
-            <Icon
-                iconFamily={IconsTypes.fontAwesome}
-                name={IconsConstants.fontAwesome.search}
-            />
-        </ContainerIcon>
         <SearchInputContainer>
             <SimpleInput
                 onChangeText={onUpdate}

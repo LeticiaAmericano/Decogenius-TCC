@@ -59,7 +59,6 @@ const Forms: React.FC = (): JSX.Element => {
             enableReinitialize={true}
             validateOnChange={false}>
             {({
-                handleChange,
                 handleSubmit,
                 isSubmitting,
                 setFieldValue,

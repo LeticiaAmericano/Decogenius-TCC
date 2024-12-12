@@ -4,17 +4,17 @@ import Colors from '../../Constants/Colors';
 import { HeaderConstants } from '../../Constants/Components/Header';
 import NavigateConstants from '../../Constants/Navigate';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowRightFromBracket, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faChevronLeft, faMapLocation } from '@fortawesome/free-solid-svg-icons';
 import type IHeader from '../../Interfaces/Components/IHeader';
 import { Container, ContainerArrowBack, ContainerLogout, SubHeader, Text } from './styles';
 import {logoutRequest} from '../../Services/apiService.tsx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ErrorModalConstants } from '../../Constants/Components/ErrorModal.ts';
 
 const Header = ({
     hasLogout = false,
     title,
     backButton = true,
+    hasPlant = false,
     goBackFunction
 }: IHeader): JSX.Element => {
     const navigation = useNavigation();
@@ -28,20 +28,19 @@ const Header = ({
         navigation.navigate(NavigateConstants.SignIn); 
     }
 
-    const arrowBackOnPress = async (): Promise<void> => {
-        if (goBackFunction) {
-            goBackFunction instanceof Promise
-                ? await goBackFunction()
-                : goBackFunction();
-        }
-        navigation.goBack();
+    const containerLeftOnPress = async (): Promise<void> => {
+        if (hasPlant) navigation.navigate(NavigateConstants.FormsPlant);
+        else navigation.goBack();
     };
 
     return (
         <Container>
-            <ContainerArrowBack onPress={arrowBackOnPress}>
+            <ContainerArrowBack onPress={containerLeftOnPress}>
                 {backButton && (
                     <FontAwesomeIcon icon={faChevronLeft} size={24} color={Colors.gray[100]} />
+                )}
+                {hasPlant && (
+                    <FontAwesomeIcon icon={faMapLocation} size={24} color={Colors.gray[100]} />
                 )}
             </ContainerArrowBack>
             <Text>{title ?? HeaderConstants.title}</Text>

@@ -53,3 +53,11 @@ export const logoutRequest = async (values: any, logoutAuthorized: any) => {
             throw error;
         });
 };
+
+export const plantRequest = async (values:any, onCreatePlantSuccess:any, onCreatePlantError:any) => {
+    return await axios.post(url + '/private/create-plant', values, {
+        headers: {
+            Authorization: `Bearer ${values.token}`,
+        },
+    }).then(onCreatePlantSuccess).catch(onCreatePlantError)
+}

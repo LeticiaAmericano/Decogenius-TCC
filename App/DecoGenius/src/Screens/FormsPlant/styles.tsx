@@ -17,6 +17,12 @@ export const StyledKeyboardAvoidingView = styled.KeyboardAvoidingView`
     flex: 1;
 `;
 
+export const ContainerBody = styled.View`
+    width: 100%;
+    height: 82%;
+    margin: 5px;
+`;
+
 export const HeaderContainer = styled.View`
     width: 100%;
     padding: 8px 14px 0 14px;
@@ -82,8 +88,10 @@ export const SelectUFContainer = styled.View`
 `;
 
 export const SelectInputContainer = styled.View`
-    width: 80%;
-    height: 88px;
+    width: 74%;
+    height: 110px;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const LabelText = styled.Text<ILabelText>`
@@ -93,7 +101,7 @@ export const LabelText = styled.Text<ILabelText>`
     margin-bottom: 8px;
     align-self: flex-start;
     width: 100%;
-    font-family: Chat;
+    font-family: 'ChakraPetch-SemiBold';
 `;
 
 export const ContainerError = styled.View<any>`
@@ -113,4 +121,75 @@ export const ErroText = styled.Text`
 export const ErrorContainer = styled.View`
     flex-direction: row;
     flex-wrap: wrap;
+`;
+
+export const UploadButton = styled.TouchableOpacity`
+    width: 100%;
+    padding: 12px;
+    background-color: ${Colors.primary};
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+`;
+
+export const UploadButtonText = styled.Text`
+    color: ${Colors.gray[100]};
+    font-size: 16px;
+    font-family: 'ChakraPetch-SemiBold';
+`;
+
+export const ImagePreviewContainer = styled.View`
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 8px;
+
+    width: 100%;
+`;
+
+export const PreviewImage = styled.Image`
+    width: 80px;
+    height: 80px;
+    margin: 4px;
+    border-radius: 4px;
+    border: 1px solid ${Colors.gray[300]};
+`;
+
+export const FileUploadContainer = styled.View`
+    width: 74%;
+    height: 220px;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const ObservationInputContainer = styled.View`
+    width: 78%;
+    padding: 8px;
+    margin-top: 12px;
+`;
+
+export const ObservationInputLabel = styled.Text`
+    color: ${Colors.primary};
+    font-size: 16px;
+    margin-bottom: 4px;
+    font-family: 'ChakraPetch-SemiBold';
+`;
+
+export const ObservationInput = styled.TextInput`
+    width: 100%;
+    min-height: 80px;
+    padding: 8px;
+    background-color: ${Colors.gray[200]};
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'ChakraPetch-Regular';
+    color: ${Colors.primary};
+`;
+
+export const DividerLine = styled.View`
+  height: 3px;
+  width: 74%;
+  background-color: ${Colors.primary};
+  margin-vertical: 15px;
 `;

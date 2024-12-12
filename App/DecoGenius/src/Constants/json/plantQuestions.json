@@ -19,119 +19,46 @@
             }
         },
         "Q_02": {
-            "title": "Insira a largura da parede esquerda (em cm):",
+            "title": "Insira a altura do comodo (em cm):",
             "options": {
                 "type": "SimpleInput",
                 "options": []
             }
         },
         "Q_03": {
-            "title": "Insira a altura da parede esquerda (em cm):",
+            "title": "Insira a largura do comodo (em cm):",
             "options": {
                 "type": "SimpleInput",
                 "options": []
             }
         },
         "Q_04": {
-            "title": "Insira a largura da parede da direita (em cm):",
+            "title": "Insira a profundidade do comodo (em cm):",
             "options": {
                 "type": "SimpleInput",
                 "options": []
             }
         },
         "Q_05": {
-            "title": "Insira a altura da parede da direita (em cm):",
-            "options": {
-                "type": "SimpleInput",
-                "options": []
-            }
-        },
-        "Q_06": {
-            "title": "Insira a largura da parede inferior (em cm):",
-            "options": {
-                "type": "SimpleInput",
-                "options": []
-            }
-        },
-        "Q_07": {
-            "title": "Insira a altura da parede inferior (em cm):",
-            "options": {
-                "type": "SimpleInput",
-                "options": []
-            }
-        },
-        "Q_08": {
-            "title": "Insira a largura da parede superior (em cm):",
-            "options": {
-                "type": "SimpleInput",
-                "options": []
-            }
-        },
-        "Q_09": {
-            "title": "Insira a altura da parede superior (em cm):",
-            "options": {
-                "type": "SimpleInput",
-                "options": []
-            }
-        },
-        "Q_10": {
             "title": "Quantas portas existem no cômodo?",
             "options": {
                 "type": "SelectInput",
                 "options": ["0", "1", "2", "3", "Mais de 3"]
             }
         },
-        "loop": {
-            "Q_11": {
-                "title": "Em qual parede está localizada a porta?",
-                "options": {
-                    "type": "SelectInput",
-                    "options": ["Parede esquerda", "Parede direita", "Parede inferior", "Parede superior"]
-                }
-            },
-            "Q_12": {
-                "title": "Qual é a largura da porta (em cm)?",
-                "options": {
-                    "type": "SimpleInput",
-                    "options": []
-                }
-            },
-            "Q_13": {
-                "title": "Qual é a altura da porta (em cm)?",
-                "options": {
-                    "type": "SimpleInput",
-                    "options": []
-                }
-            },
-            "Q_14": {
-                "title": "A quantos cm do canto esquerdo da parede a porta está localizada?",
-                "options": {
-                    "type": "SimpleInput",
-                    "options": []
-                }
-            },
-            "Q_15": {
-                "loop": 1,
-                "title": "Gostaria de adicionar outra porta?",
-                "options": {
-                    "type": "SelectInput",
-                    "options": ["Sim", "Não"]
-                }
+        "Q_06": {
+            "title": "Você gostaria de enviar imagens do cômodo?",
+            "options": {
+                "type": "file_upload"
             }
         },
-        "Q_16": {
+        "Q_07": {
             "loop": 1,
-            "title": "Gostaria de adicionar outra porta?",
+            "title": "Gostaria de adicionar outro cômodo?",
             "options": {
                 "type": "SelectInput",
                 "options": ["Sim", "Não"]
             }
-        }
-    },
-    "Q_17": {
-        "title": "Você gostaria de enviar imagens do cômodo?",
-        "options": {
-            "type": "file_upload"
         }
     }
 }

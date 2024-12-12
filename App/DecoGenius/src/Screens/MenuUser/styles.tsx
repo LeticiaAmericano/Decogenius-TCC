@@ -39,6 +39,6 @@ export const ContainerTitle = styled.View`
 
 export const Text = styled.Text`
     color: ${Colors.primary};
-    font-size: 30px;
+    font-size: 26px;
     font-family: 'ChakraPetch-SemiBold';
 `;

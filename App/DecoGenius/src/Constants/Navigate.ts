@@ -5,5 +5,7 @@ export enum NavigateConstants {
     MenuUser = 'MenuUser',
     Answer = 'Answer',
     Forms = 'Forms',
+    FormsPlant = 'FormsPlant',
+    Plant3D = 'Plant3D',
 } 
 export default NavigateConstants;

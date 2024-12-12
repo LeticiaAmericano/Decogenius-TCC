@@ -14,7 +14,6 @@ export const LabelText = styled.Text<ILabelText>`
 `
 
 export const ContainerText = styled.View<IStyledContainerTextProps>`
-  flex: 1;
   background-color: ${(props: IStyledContainerTextProps) =>
     props.mainColor ? props.mainColor : Colors.gray[900]};
   min-height: 50px;

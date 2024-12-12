@@ -7,6 +7,8 @@ import SignUp from '../Screens/SignUp';
 import MenuUser from '../Screens/MenuUser';
 import Answer from '../Screens/Answer';
 import Forms from '../Screens/Forms';
+import FormsPlant from '../Screens/FormsPlant';
+import Plant3D from '../Screens/Plant3D';
 
 
 const Stack = createNativeStackNavigator();
@@ -43,6 +45,16 @@ const Navigation: React.FC = () => (
             name="Forms"
             component={Forms}
             options={{title: 'Forms', headerShown: false}}    
+        />
+        <Stack.Screen
+            name="FormsPlant"
+            component={FormsPlant}
+            options={{title: 'FormsPlant', headerShown: false}}    
+        />
+        <Stack.Screen
+            name="Plant3D"
+            component={Plant3D}
+            options={{title: 'Plant3D', headerShown: false}}    
         />
     </Stack.Navigator>
   </NavigationContainer>
