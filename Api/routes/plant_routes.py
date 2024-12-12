@@ -1,4 +1,5 @@
 from collections import defaultdict
+import os
 from flask import Blueprint, request, jsonify, send_file
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models import db
@@ -17,53 +18,61 @@ import string
 import numpy as np
 
 def create_room_model(rooms):
-    """Create model of rooms based on 3D dimensions without ceiling"""
+    """Create model of rooms based on 3D dimensions with only two walls for interior visualization"""
     room_models = []
     
     for room in rooms:
         dimensions = room["dimensions"]
-        height = float(dimensions["height"])
-        width = float(dimensions["width"])
-        depth = float(dimensions["depth"])
+        height = float(dimensions["height"]) / 100
+        width = float(dimensions["width"]) / 100
+        depth = float(dimensions["depth"]) / 100
 
-        # Create vertices for the walls (without ceiling)
+        # Mantemos os mesmos vértices
         vertices = np.array([
             [0.0, 0.0, 0.0],       # 0: front-left-bottom
-            [width / 100, 0.0, 0.0],   # 1: front-right-bottom
-            [width / 100, depth / 100, 0.0], # 2: back-right-bottom
-            [0.0, depth / 100, 0.0],   # 3: back-left-bottom
-            [0.0, 0.0, height / 100],    # 4: front-left-top
-            [width / 100, 0.0, height / 100], # 5: front-right-top
-            [width / 100, depth / 100, height / 100], # 6: back-right-top
-            [0.0, depth / 100, height / 100]  # 7: back-left-top
+            [width, 0.0, 0.0],     # 1: front-right-bottom
+            [width, 0.0, depth],    # 2: back-right-bottom
+            [0.0, 0.0, depth],      # 3: back-left-bottom
+            [0.0, height, 0.0],     # 4: front-left-top
+            [width, height, 0.0],   # 5: front-right-top
+            [0.0, height, depth]    # 6: back-left-top
         ])
 
-        # Define faces (floor and walls only, no ceiling)
+        # Adicionamos faces duplicadas com orientação inversa
         faces = np.array([
-            [0, 1, 2],    # floor part 1
-            [0, 2, 3],    # floor part 2
-            [0, 1, 4],    # front wall part 1
-            [1, 5, 4],    # front wall part 2
-            [1, 2, 5],    # right wall part 1
-            [2, 6, 5],    # right wall part 2
-            [2, 3, 6],    # back wall part 1
-            [3, 7, 6],    # back wall part 2
-            [3, 0, 7],    # left wall part 1
-            [0, 4, 7]     # left wall part 2
+            # Floor (frente e verso)
+            [0, 1, 2],    # floor front
+            [0, 2, 3],    # floor front
+            [2, 1, 0],    # floor back
+            [3, 2, 0],    # floor back
+            
+            # Front wall (frente e verso)
+            [0, 1, 4],    # front wall front
+            [1, 5, 4],    # front wall front
+            [4, 1, 0],    # front wall back
+            [4, 5, 1],    # front wall back
+            
+            # Left wall (frente e verso)
+            [3, 0, 6],    # left wall front
+            [0, 4, 6],    # left wall front
+            [6, 0, 3],    # left wall back
+            [6, 4, 0]     # left wall back
         ])
 
-        # Define colors for each face
+        # Cores para todas as faces (incluindo as duplicadas)
         face_colors = np.array([
-            [0.8, 0.8, 0.8, 1.0],  # floor part 1
-            [0.8, 0.8, 0.8, 1.0],  # floor part 2
-            [0.4, 0.4, 0.4, 1.0],  # front wall part 1
-            [0.4, 0.4, 0.4, 1.0],  # front wall part 2
-            [0.4, 0.4, 0.4, 1.0],  # right wall part 1
-            [0.4, 0.4, 0.4, 1.0],  # right wall part 2
-            [0.4, 0.4, 0.4, 1.0],  # back wall part 1
-            [0.4, 0.4, 0.4, 1.0],  # back wall part 2
-            [0.4, 0.4, 0.4, 1.0],  # left wall part 1
-            [0.4, 0.4, 0.4, 1.0]   # left wall part 2
+            [0.3, 0.3, 0.3, 1.0],  # floor front 1
+            [0.3, 0.3, 0.3, 1.0],  # floor front 2
+            [0.3, 0.3, 0.3, 1.0],  # floor back 1
+            [0.3, 0.3, 0.3, 1.0],  # floor back 2
+            [0.7, 0.7, 0.7, 1.0],  # front wall front 1
+            [0.7, 0.7, 0.7, 1.0],  # front wall front 2
+            [0.7, 0.7, 0.7, 1.0],  # front wall back 1
+            [0.7, 0.7, 0.7, 1.0],  # front wall back 2
+            [0.7, 0.7, 0.7, 1.0],  # left wall front 1
+            [0.7, 0.7, 0.7, 1.0],  # left wall front 2
+            [0.7, 0.7, 0.7, 1.0],  # left wall back 1
+            [0.7, 0.7, 0.7, 1.0]   # left wall back 2
         ])
 
         # Create mesh from vertices and faces
@@ -104,6 +113,12 @@ def create_plant():
                 code=''.join(random.choices(string.ascii_uppercase + string.digits, k=8)),
                 user_id=user_id
             )
+            
+            file_path = os.path.join('uploads', room_model.file_name)
+            os.makedirs('uploads', exist_ok=True)
+            with open(file_path, 'wb') as f:
+                f.write(file_data)
+            room_model.file_path = file_path
             
             db.session.add(room_model)
             room_models_data.append({

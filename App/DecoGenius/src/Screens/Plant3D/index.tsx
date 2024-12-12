@@ -3,8 +3,8 @@ import { ActivityIndicator, Dimensions, Animated } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { WebView } from 'react-native-webview';
 import Colors from '../../Constants/Colors';
-import * as S from './styles';
 import Header from "../../Components/Header";
+import { Container, ContainerBody, LoadingContain, ModelContainerer, LoadingText, ModelContainer, RoomControlsContainer, RoomControlButton, DimensionText, DimensionItem, DimensionsContainer, RoomControlText, LoadingContainer } from "./styles";
 
 interface RoomDimensions {
     width_left: number;
@@ -46,7 +46,7 @@ const Plant3D: React.FC = (): JSX.Element => {
     const changeRoom = (direction: 'next' | 'prev') => {
         const newRoom = direction === 'next' 
             ? (currentRoom + 1) % rooms.length 
-            : currentRoom > 0 ? currentRoom - 1 : rooms.length - 1;
+            : currentRoom > 0 ? currentRoom - 1 : roomlength - 1;
         
         Animated.sequence([
             Animated.timing(rotationAnim, {
@@ -83,23 +83,29 @@ const Plant3D: React.FC = (): JSX.Element => {
                     const scene = new THREE.Scene();
                     scene.background = new THREE.Color(0xf0f0f0);
                     
-                    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-                    const renderer = new THREE.WebGLRenderer({ antialias: true });
+                    const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000000);
+                    const renderer = new THREE.WebGLRenderer({ 
+                        antialias: true,
+                        preserveDrawingBuffer: true
+                    });
                     renderer.setSize(window.innerWidth, window.innerHeight);
                     document.body.appendChild(renderer.domElement);
 
                     const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    controls.enableDamping = true;
+                    controls.dampingFactor = 0.05;
                     
-                    // Luz ambiente
                     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
                     scene.add(ambientLight);
-
-                    // Luz direcional
+                    
                     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-                    directionalLight.position.set(0, 10, 0);
+                    directionalLight.position.set(1, 1, 1);
                     scene.add(directionalLight);
+                    
+                    const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+                    backLight.position.set(-1, 1, -1);
+                    scene.add(backLight);
 
-                    // Converte base64 para blob URL
                     const binaryString = atob('${base64Data}');
                     const bytes = new Uint8Array(binaryString.length);
                     for (let i = 0; i < binaryString.length; i++) {
@@ -108,30 +114,38 @@ const Plant3D: React.FC = (): JSX.Element => {
                     const blob = new Blob([bytes], { type: 'model/gltf-binary' });
                     const blobUrl = URL.createObjectURL(blob);
 
-                    // Carrega o modelo
                     const loader = new THREE.GLTFLoader();
                     loader.load(blobUrl, function(gltf) {
                         const model = gltf.scene;
+                        
+                        model.traverse((child) => {
+                            if (child.isMesh) {
+                                child.material.side = THREE.DoubleSide;
+                                child.material.needsUpdate = true;
+                                child.material.vertexColors = true;
+                            }
+                        });
+                        
                         scene.add(model);
                         
-                        // Ajusta a câmera
                         const box = new THREE.Box3().setFromObject(model);
                         const center = box.getCenter(new THREE.Vector3());
                         const size = box.getSize(new THREE.Vector3());
                         const maxDim = Math.max(size.x, size.y, size.z);
                         
-                        // Posiciona a câmera em um ângulo mais adequado para visualização
                         camera.position.set(
-                            center.x + maxDim * 1.5,
-                            center.y + maxDim * 1.5,
-                            center.z + maxDim * 1.5
+                            center.x + maxDim * 2,
+                            center.y + maxDim * 3,
+                            center.z + maxDim * 6
                         );
                         camera.lookAt(center);
                         controls.target.copy(center);
                         
-                        // Define limites para o zoom
-                        controls.maxDistance = maxDim * 4;
-                        controls.minDistance = maxDim * 0.5;
+                        controls.maxDistance = maxDim * 20;
+                        controls.minDistance = maxDim * 1;
+                        
+                        controls.maxPolarAngle = Math.PI / 1.5;
+                        controls.minPolarAngle = 0;
                         
                         controls.update();
                     });
@@ -157,20 +171,20 @@ const Plant3D: React.FC = (): JSX.Element => {
 
     if (isLoading) {
         return (
-            <S.Container>
-                <S.LoadingContainer>
+            <Container>
+                <LoadingContainer>
                     <ActivityIndicator size="large" color={Colors.primary} />
-                    <S.LoadingText>Carregando visualização 3D...</S.LoadingText>
-                </S.LoadingContainer>
-            </S.Container>
+                    <LoadingText>Carregando visualização 3D...</LoadingText>
+                </LoadingContainer>
+            </Container>
         );
     }
 
     return (
-        <S.Container>
+        <Container>
             <Header backButton={true} />
 
-            <S.ContainerBody>
+            <ContainerBody>
                 <Animated.View style={{
                     transform: [{
                         rotateY: rotationAnim.interpolate({
@@ -180,7 +194,7 @@ const Plant3D: React.FC = (): JSX.Element => {
                     }],
                     height: '70%'
                 }}>
-                    <S.ModelContainer>
+                    <ModelContainer>
                         <WebView
                             source={{ 
                                 html: createModelHtml(rooms[currentRoom].file_data)
@@ -188,33 +202,33 @@ const Plant3D: React.FC = (): JSX.Element => {
                             style={{ flex: 1, width: '100%', height: '100%' }}
                             onLoad={onWebViewLoad}
                         />
-                    </S.ModelContainer>
+                    </ModelContainer>
                 </Animated.View>
 
-                <S.RoomControlsContainer>
-                    <S.RoomControlButton onPress={() => changeRoom('prev')}>
-                        <S.RoomControlText>Anterior</S.RoomControlText>
-                    </S.RoomControlButton>
+                <RoomControlsContainer>
+                    <RoomControlButton onPress={() => changeRoom('prev')}>
+                        <RoomControlText>Anterior</RoomControlText>
+                    </RoomControlButton>
 
-                    <S.RoomControlButton onPress={() => changeRoom('next')}>
-                        <S.RoomControlText>Próximo</S.RoomControlText>
-                    </S.RoomControlButton>
-                </S.RoomControlsContainer>
+                    <RoomControlButton onPress={() => changeRoom('next')}>
+                        <RoomControlText>Próximo</RoomControlText>
+                    </RoomControlButton>
+                </RoomControlsContainer>
 
-                <S.DimensionsContainer>
-                    <S.DimensionItem>
-                        <S.DimensionText>
+                <DimensionsContainer>
+                    <DimensionItem>
+                        <DimensionText>
                             Tipo: {rooms[currentRoom]?.room_type}
-                        </S.DimensionText>
-                    </S.DimensionItem>
-                    <S.DimensionItem>
-                        <S.DimensionText>
+                        </DimensionText>
+                    </DimensionItem>
+                    <DimensionItem>
+                        <DimensionText>
                             Arquivo: {rooms[currentRoom]?.file_name}
-                        </S.DimensionText>
-                    </S.DimensionItem>
-                </S.DimensionsContainer>
-            </S.ContainerBody>
-        </S.Container>
+                        </DimensionText>
+                    </DimensionItem>
+                </DimensionsContainer>
+            </ContainerBody>
+        </Container>
     );
 };
 
