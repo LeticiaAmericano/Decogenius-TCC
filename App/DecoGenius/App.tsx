@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import Navigation from './src/Navigation';
 import { ConfigProvider } from './src/Hooks/Config';
 
+
 const GlobalStyle = StyleSheet.create({
   global: {
     height: '100%',

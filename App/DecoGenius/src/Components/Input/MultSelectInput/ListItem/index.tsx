@@ -9,6 +9,8 @@ import type { IListItemProps } from '../../../../Interfaces/Components/IMultiInp
 import Colors from '../../../../Constants/Colors';
 import Icon from '../../../Icon';
 import { IconContainer, ListComponent, ListValue } from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleChevronLeft, faClose } from '@fortawesome/free-solid-svg-icons';
 
 const ListItem = ({
     item,
@@ -21,12 +23,7 @@ const ListItem = ({
         <ListValue textColor={textColor}>{item}</ListValue>
         {editable && (
             <IconContainer onPress={() => handleRemoveValue(index)}>
-                <Icon
-                    name={IconsConstants.antDesign.close}
-                    iconFamily={IconsTypes.antDesign}
-                    size={IconSizes.extraSmall}
-                    color={Colors.primary}
-                />
+                <FontAwesomeIcon icon={faClose} size={24} color={Colors.primary} />
             </IconContainer>
         )}
     </ListComponent>

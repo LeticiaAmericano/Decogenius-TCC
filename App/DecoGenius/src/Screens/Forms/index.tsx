@@ -53,7 +53,7 @@ const Forms: React.FC = (): JSX.Element => {
         Object.entries(values).forEach(([key, value]) => {
             if (key !== 'name') {
                 if (Array.isArray(value)) {
-                    formattedData.questions_answer[key] = value.join(', ');
+                    formattedData.questions_answer[key] = value.map((option) => option.value).join(', ');
                 } else {
                     formattedData.questions_answer[key] = value;
                 }
@@ -67,12 +67,13 @@ const Forms: React.FC = (): JSX.Element => {
                 type: 'image/jpeg'
             }));
         }
+
         
         return formattedData;
     };
 
     const CreateDesignOnSucess = (response:any) => {
-        navigation.navigate(NavigateConstants.Answer); 
+        navigation.navigate(NavigateConstants.Answer, response.data); 
     }
 
     const CreateDesignOnError = (error:any) => {
@@ -110,6 +111,57 @@ const Forms: React.FC = (): JSX.Element => {
         return array;
     }
 
+    const updateSelectValue = useCallback((key, selectedValue, setFieldValue) => {
+        let questionAddToRender = [...visibleQuestions];
+        
+        Object.entries(hierarchicalData).forEach(([keyDependencies, valueDependencies]) => {
+            if (typeof valueDependencies === 'object' && keyDependencies == key) {
+                Object.entries(valueDependencies).forEach(([keyValueDependencies, questionMaybeRender]) => {
+                    if (keyValueDependencies != selectedValue) {
+                        questionAddToRender = questionAddToRender.filter((item) => {
+                            if (Array.isArray(questionMaybeRender)) {
+                                if (questionMaybeRender.includes(item)) setFieldValue(item, undefined)
+                                return !questionMaybeRender.includes(item);
+                            } else {
+                                if (item == questionAddToRender as string) setFieldValue(item, undefined)
+                                return item !== questionMaybeRender;
+                            }
+                        });
+                    } else {
+                        questionAddToRender = insertAfter(questionAddToRender, key, questionMaybeRender);
+                    }
+                });
+            }
+        });
+        
+        setVisibleQuestions(questionAddToRender);
+        setFieldValue(key, selectedValue);
+    }, [visibleQuestions]);
+
+    const handleFileUpload = useCallback(
+        (fieldKey, setFieldValue) => {
+            const options = {
+                selectionLimit: 3,
+                mediaType: 'photo',
+                includeBase64: false,
+            };
+
+            launchImageLibrary(options, (response) => {
+                if (response.didCancel) {
+                    console.log('Usuário cancelou a seleção de imagens');
+                } else if (response.errorCode) {
+                    console.log('Erro no ImagePicker: ', response.errorMessage);
+                } else {
+                    const selectedImages = response.assets.map(
+                        (asset) => asset.uri
+                    );
+                    setFieldValue(fieldKey, selectedImages);
+                }
+            });
+        },
+        []
+    );
+
     return (
         <Formik
             initialValues={initialValues}
@@ -117,60 +169,13 @@ const Forms: React.FC = (): JSX.Element => {
             validateOnChange={false}>
             {({
                 handleSubmit,
-                isSubmitting,
                 setFieldValue,
+                isSubmitting,
                 values,
             }:any) => {
                 if (isSubmitting) {
                     return <Loading />;
                 }
-                const updateSelectValue = 
-                    (selectedValue, key) => {
-                        let questionAddToRender = visibleQuestions;
-                        Object.entries(hierarchicalData).forEach(([keyDependencies, valueDependencies]) => {
-                            if (typeof valueDependencies === 'object' && keyDependencies == key) {
-                                Object.entries(valueDependencies).forEach(([keyValueDependencies, questionMaybeRender]) => {
-                                    if (keyValueDependencies != selectedValue) {
-                                        questionAddToRender = questionAddToRender.filter((item) => {
-                                            if (Array.isArray(questionMaybeRender)) {
-                                                if (questionMaybeRender.includes(item)) setFieldValue(item, undefined)
-                                                return !questionMaybeRender.includes(item);
-                                            } else {
-                                                if (item == questionAddToRender as string) setFieldValue(item, undefined)
-                                                return item !== questionMaybeRender;
-                                            }
-                                        });
-                                    } else questionAddToRender = insertAfter(questionAddToRender, key, questionMaybeRender);
-                                });
-                            }
-                        });
-                        setVisibleQuestions(questionAddToRender);
-                        setFieldValue(key, selectedValue);
-                    };
-
-                const handleFileUpload = useCallback(
-                    (fieldKey) => {
-                        const options = {
-                            selectionLimit: 3,
-                            mediaType: 'photo',
-                            includeBase64: false,
-                        };
-
-                        launchImageLibrary(options, (response) => {
-                            if (response.didCancel) {
-                                console.log('Usuário cancelou a seleção de imagens');
-                            } else if (response.errorCode) {
-                                console.log('Erro no ImagePicker: ', response.errorMessage);
-                            } else {
-                                const selectedImages = response.assets.map(
-                                    (asset) => asset.uri
-                                );
-                                setFieldValue(fieldKey, selectedImages);
-                            }
-                        });
-                    },
-                    [setFieldValue]
-                );
 
                 return (
                     <>
@@ -196,7 +201,7 @@ const Forms: React.FC = (): JSX.Element => {
                                                                 })
                                                             )}
                                                             setSelectValue={(selectedValue) => {
-                                                                updateSelectValue(selectedValue, key);
+                                                                updateSelectValue(key, selectedValue, setFieldValue);
                                                             }}
                                                             hideIcon={true}
                                                         />
@@ -204,7 +209,7 @@ const Forms: React.FC = (): JSX.Element => {
                                                 );
                                             case 'MultSelectInput':
                                                 return (
-                                                    <SelectInputContainer key={key}>
+                                                    <ObservationInputContainer key={key}>
                                                         <MultSelectInput
                                                             labelText={title}
                                                             options={options.options.map(
@@ -216,14 +221,15 @@ const Forms: React.FC = (): JSX.Element => {
                                                             selectedOptions={values[key] || []}
                                                             setSelectedOptionsState={(
                                                                 selectedOptions
-                                                            ) =>
+                                                            ) => {
                                                                 updateSelectValue(
                                                                     key,
-                                                                    selectedOptions
-                                                                )
+                                                                    selectedOptions,
+                                                                    setFieldValue
+                                                                )}
                                                             }
                                                         />
-                                                    </SelectInputContainer>
+                                                    </ObservationInputContainer>
                                                 );
                                             case 'SimpleInput':
                                                 return (
@@ -232,7 +238,7 @@ const Forms: React.FC = (): JSX.Element => {
                                                             labelText={title}
                                                             value={values[key]}
                                                             onChangeText={(text) =>
-                                                                updateSelectValue(key, text)
+                                                                updateSelectValue(key, text, setFieldValue)
                                                             }
                                                             textColor={Colors.primary}
                                                             mainColor={Colors.gray[100]}
@@ -248,7 +254,7 @@ const Forms: React.FC = (): JSX.Element => {
                                                             labelColor={Colors.primary}>
                                                             {title}
                                                         </LabelText>
-                                                        <UploadButton onPress={() => handleFileUpload(key)}>
+                                                        <UploadButton onPress={() => handleFileUpload(key, setFieldValue)}>
                                                             <UploadButtonText>Imagem</UploadButtonText>
                                                         </UploadButton>
                                                         {values[key] && values[key].length > 0 && (

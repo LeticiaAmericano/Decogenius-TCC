@@ -12,6 +12,7 @@ import base64
 from services.openai_provider import OpenAIProvider
 from utils.model_system_instructions import model_system_instructions
 from datetime import datetime
+import requests
 
 def process_images_to_base64(form_files):
     base64_images = []
@@ -91,10 +92,12 @@ def create_design():
             model="gpt-4o-mini"
         )
 
-        gpt_json = {'simple_description': 'The living room transforms into a cozy and modern space, featuring a warm color palette, comfortable seating, and ample natural light, creating an inviting atmosphere.', 'detailed_description': "The redesigned living room exudes a cozy and modern aesthetic, characterized by a harmonious blend of comfort and style. The focal point is a plush, L-shaped sectional sofa upholstered in a soft, light gray fabric, adorned with an array of textured throw pillows in muted earth tones. A sleek, minimalist coffee table made of reclaimed wood sits at the center, providing a rustic touch that complements the modern design. The walls are painted in a warm, neutral tone, enhancing the room's brightness and creating a welcoming ambiance. Large windows draped with sheer, light-filtering curtains allow natural light to flood the space, illuminating the beautiful hardwood flooring with a honeyed finish. In one corner, a stylish floor lamp with a warm glow adds to the cozy atmosphere, while a few potted plants bring a touch of greenery and life to the room. The ceiling features recessed lighting that can be adjusted to create the perfect mood, whether for relaxation or entertaining guests. Overall, this living room design perfectly balances modern elegance with a cozy, inviting feel."}
+        gpt_json = openai_provider.generate_object_response()
 
-        simple_description = gpt_json.get("simple_description")
-        detailed_description = gpt_json.get("detailed_description")
+        # gpt_json = {'simple_description': 'The living room transforms into a cozy and modern space, featuring a warm color palette, comfortable seating, and ample natural light, creating an inviting atmosphere.', 'detailed_description': "The redesigned living room exudes a cozy and modern aesthetic, characterized by a harmonious blend of comfort and style. The focal point is a plush, L-shaped sectional sofa upholstered in a soft, light gray fabric, adorned with an array of textured throw pillows in muted earth tones. A sleek, minimalist coffee table made of reclaimed wood sits at the center, providing a rustic touch that complements the modern design. The walls are painted in a warm, neutral tone, enhancing the room's brightness and creating a welcoming ambiance. Large windows draped with sheer, light-filtering curtains allow natural light to flood the space, illuminating the beautiful hardwood flooring with a honeyed finish. In one corner, a stylish floor lamp with a warm glow adds to the cozy atmosphere, while a few potted plants bring a touch of greenery and life to the room. The ceiling features recessed lighting that can be adjusted to create the perfect mood, whether for relaxation or entertaining guests. Overall, this living room design perfectly balances modern elegance with a cozy, inviting feel."}
+
+        simple_description = gpt_json.simple_description
+        detailed_description = gpt_json.detailed_description
 
         openai_provider = OpenAIProvider(
             messages=[{"role": "user", "content": f"{detailed_description}"}],
@@ -104,9 +107,10 @@ def create_design():
             model="dall-e-3"
         )
 
-        img_base64 = ''
-        with open(os.path.join(os.getcwd(), 'img_base64.txt'), 'r') as file: 
-            img_base64 = file.read()
+        img_base64 = openai_provider.generate_image()
+        print(img_base64)
+        # with open(os.path.join(os.getcwd(), 'img_base64.txt'), 'r') as file: 
+        #     img_base64 = file.read()
 
         if img_base64.startswith("data:image/png;base64,"):
             img_base64 = img_base64.replace("data:image/png;base64,", "")
@@ -244,6 +248,7 @@ def item_list():
         for design in designs:
             design_list.append({
                 'design_id': design.id,
+                'gpt_description': design.gpt_description,
                 'name': design.name,
                 'room': design.room,
                 'gpt_photo': base64.b64encode(design.gpt_photo).decode('utf-8') if design.gpt_photo else None

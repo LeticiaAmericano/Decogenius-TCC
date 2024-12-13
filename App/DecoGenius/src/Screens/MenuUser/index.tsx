@@ -75,8 +75,12 @@ const MenuUser: React.FC = (): JSX.Element => {
         return () => backHandler.remove();
     }, []);
 
-    const onRefresh: () => void = useCallback(() => {
+    const onRefresh: () => void = useCallback(async () => {
         setRefreshing(true);
+        const token = await AsyncStorage.getItem('access_token');
+        const response = await listRequest({token});
+        setRoomsData(response.data.designs);
+        setRoomsDataFilter(response.data.designs);
         setRefreshing(false);
     }, []);
 
@@ -119,7 +123,7 @@ const MenuUser: React.FC = (): JSX.Element => {
                             />
                         </ContainerItemList>
                     </ContainerBody>
-                    <Footer buttonPress={FooterButtonPress} title={"New room"} />
+                    <Footer buttonPress={FooterButtonPress} title={"Novo cômodo"} />
                 </Container>
             </KeyboardAvoidingView>
             {errorModalState.visibility && (

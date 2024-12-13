@@ -1,6 +1,6 @@
 const MenuUserConstants = {
     itemList: {
-        title: 'Historic'
+        title: 'Histórico'
     }
 };
 

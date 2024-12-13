@@ -1,6 +1,6 @@
 const SignUpConstants = {
-    title: 'Register',
-    links: 'Already have an account? Log in',
+    title: 'Cadastro',
+    links: 'Já tem uma conta? Faça login',
     signInput: {
         values: {
             name: 'name',
@@ -12,58 +12,58 @@ const SignUpConstants = {
             confirmPassword: 'confirmPassword',
         },
         labels: {
-            name: 'Name*:',
+            name: 'Nome*:',
             email: 'Email*:',
             cpf: 'CPF*:',
             rg: 'RG*:',
-            phone: 'Phone*:',
-            dateOfBirth: 'Date of Birth*:',
-            password: 'Password*:',
-            confirmPassword: 'Confirm Password*:'
+            phone: 'Telefone*:',
+            dateOfBirth: 'Data de nascimento*:',
+            password: 'Senha*:',
+            confirmPassword: 'Confirmar senha*:'
         }
     },
     signButton: {
         placeholders: {
-            register: 'Register'
+            register: 'Cadastrar'
         }
     },
     errorsMessage: {
         name: {
-            required: 'Name is required'
+            required: 'Nome é obrigatório'
         },
         email: {
-            valid: 'Enter a valid email',
-            required: 'Email is required'
+            valid: 'Digite um email válido',
+            required: 'Email é obrigatório'
         },
         cpf: {
-            required: 'CPF is required',
-            max: 'The maximum number of characters for CPF is 11',
+            required: 'CPF é obrigatório',
+            max: 'O CPF deve ter 11 caracteres',
             test: {
                 name: 'CpfValidation',
-                message: 'Enter a valid CPF'
+                message: 'Digite um CPF válido'
             }
         },
         phone: {
-            required: 'Phone number is required.',
-            max: 'The maximum number of characters is 11',
-            min: 'The minimum number of characters is 10'
+            required: 'Telefone é obrigatório',
+            max: 'O telefone deve ter 11 caracteres',
+            min: 'O telefone deve ter 10 caracteres'
         },
         dateOfBirth: {
-            required: 'Date of birth is required.',
-            max: 'The maximum number of characters is 10',
+            required: 'Data de nascimento é obrigatório',
+            max: 'A data de nascimento deve ter 10 caracteres',
             test: {
                 name: 'futureDateValidation',
-                message: 'Date of birth cannot be in the future'
+                message: 'A data de nascimento não pode ser no futuro'
             }
         },
         password: {
-            required: 'Password is required',
-            min: 'The minimum number of characters for the password is 8'
+            required: 'Senha é obrigatório',
+            min: 'A senha deve ter pelo menos 8 caracteres'
         },
         confirmPassword: {
-            required: 'Password is required',
-            min: 'The minimum number of characters for the password is 8',
-            equals: 'Passwords do not match'
+            required: 'Senha é obrigatório',
+            min: 'A senha deve ter pelo menos 8 caracteres',
+            equals: 'As senhas não correspondem'
         },
     }
 };

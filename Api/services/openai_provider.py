@@ -49,14 +49,13 @@ class OpenAIProvider:
             return None
         
     def generate_image(self):
-        print(dalle_system_instructions(self.messages[0]['content']))
         response = client.images.generate(
             model=self.model,
             prompt=dalle_system_instructions(self.messages[0]['content']),
             size="1024x1024",
             quality="standard",
             n=1,
-            # response_format='b64_json'
+            response_format='b64_json'
         )
 
-        return response.data[0].url
+        return response.data[0].b64_json

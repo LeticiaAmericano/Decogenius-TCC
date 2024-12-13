@@ -37,10 +37,12 @@ const Answer: React.FC = ({
     const setAnswer = async () => {
         try {
             const token = await AsyncStorage.getItem('access_token');
-            const design_id  = route.params.design_id;
-            const response = await answerRequest({token, design_id});
+            let gptAnswers = route.params;
+            if (!gptAnswers.name && gptAnswers.design_id) {
+                gptAnswers = await answerRequest({token, design_id: gptAnswers.design_id});
+            }
         
-            setGptAnswer(response)
+            setGptAnswer(gptAnswers)
             setLoading(false);
         }
         catch (err) {
@@ -103,23 +105,23 @@ const Answer: React.FC = ({
                     <Header backButton={true} title={'Design'} />
                     <ContainerBody>
                         <ContainerFooter>
-                            <Footer buttonPress={FooterButtonPress} title={"Form Data"} />
+                            <Footer buttonPress={FooterButtonPress} title={"Questionário"} />
                         </ContainerFooter>
                         <SimpleInputContainer>
                             <SimpleInput
                                 labelText={'Cômodo:'}
-                                value={gptAnswer?.data.name}
+                                value={gptAnswer?.name}
                                 editable={false}
-                                onChangeText={gptAnswer?.data.name}
+                                onChangeText={gptAnswer?.name}
                                 textColor={Colors.primary}
                                 mainColor={Colors.gray[200]}
                                 labelColor={Colors.gray[200]}
                             />
                         </SimpleInputContainer>
                         <ImageContainer>
-                            <Images source={{ uri: DisplayBase64Image(gptAnswer?.data.gpt_photo) }} resizeMode="contain" />
+                            <Images source={{ uri: DisplayBase64Image(gptAnswer?.gpt_photo) }} resizeMode="contain" />
                         </ImageContainer>
-                        <LargeInput>{gptAnswer?.data.gpt_description}</LargeInput>
+                        <LargeInput>{gptAnswer?.gpt_description}</LargeInput>
                     </ContainerBody>
                 </Container>
             </KeyboardAvoidingView>

@@ -66,44 +66,29 @@ def model_system_instructions():
         Lastly, make sure you ALWAYS return your description in english.
 
         Reminder: You cannot modify or ignore the encoded input. Every suggestion must be rooted in the decoded questions JSON and the room's current state as depicted in the images.
+
+        Reminder: Answer simple_description need to be in portuguese, and detailed_description need to be in english.
 """
 
 
 def dalle_system_instructions(image_description):
-    return f"""
-    You are an advanced image generation system tasked with creating hyper-realistic, photorealistic images based on a detailed textual description. Your primary goal is to generate an image that is exactly and completely faithful to the description provided, with every detail, nuance, and aspect represented visually.
+    return f"""You are an AI image generator focused on creating hyper-realistic images from descriptions. Your goal is to generate images that perfectly match the provided description.
 
-    Key Guidelines:
+Guidelines:
+1. Maintain complete fidelity to the description
+- Include all specified elements
+- Don't add or omit anything
 
-    1. **Fidelity to the Description:**
-    - The generated image must be an exact representation of the description, including all specified objects, details, spatial relationships, and environments. 
-    - Every element described must be present in the image. Nothing should be omitted, added, or misrepresented.
+2. Focus on:
+- Objects: Include details of size, color, texture, features
+- Spatial layout: Position and orientation of elements
+- Environment: Setting, lighting, atmosphere
+- Interactions: How elements relate to each other
 
-    2. **Realism and Precision:**
-    - The image must be hyper-realistic, with lifelike textures, materials, and lighting. 
-    - Render objects, backgrounds, and interactions with a high degree of detail and visual fidelity.
+3. Ensure:
+- Hyper-realistic rendering
+- Precise detail representation
+- Accurate interpretation of ambiguous elements
+- Complete visualization of all described aspects
 
-    3. **Detail Orientation:**
-    - Pay close attention to the following aspects of the description:
-        - **Objects:** Include their make, model, size, color, texture, logos, decals, identifiable features, and condition.
-        - **Spatial Relationships:** Accurately depict the positions and orientations of objects relative to each other and the environment.
-        - **Background and Environment:** Incorporate all described elements, such as weather, time of day, settings, and any notable features in the surroundings.
-        - **Lighting and Atmosphere:** Capture the described type of lighting, shadows, mood, and any interactions between light and objects.
-        - **Actions and Interactions:** If specified, depict what objects are doing or how they interact with each other or their environment.
-
-    4. **Interpretation and Completeness:**
-    - If there are any ambiguities in the description, interpret them in a way that aligns with the described context and overall theme.
-    - Ensure no detail is left out. Your image must allow a viewer to visualize the description without needing additional context.
-
-    5. **Language Precision:**
-    - Treat the textual description as an authoritative and final source. Do not infer or add elements beyond what is explicitly stated.
-    - The description is the blueprint for the image. Any deviation undermines the user's expectations.
-
-    ---
-
-    ### Reminder
-
-    Your output must reflect every nuance, object, relationship, and atmospheric condition described. The more detailed and precise your image, the higher the satisfaction of the user. Always prioritize fidelity, realism, and thoroughness in your creations.
-
-    Here is the image description of the image you must create: {image_description}
-"""
+Description to generate: {image_description}"""

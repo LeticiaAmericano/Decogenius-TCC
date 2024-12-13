@@ -1,5 +1,5 @@
 const SignInConstants = {
-    title: 'Sign In',
+    title: 'Login',
     signInput: {
         values: {
             email: 'email',
@@ -7,26 +7,26 @@ const SignInConstants = {
         },
         labels: {
             email: 'Email:',
-            password: 'Password:',
+            password: 'Senha:',
         }
     },
     signButton: {
         placeholders: {
-            login: 'Connected'
+            login: 'Conectado'
         }
     },
     links: {
-        forgetPassword: 'Forgot your password?',
-        createNewUser: 'Don\'t have a user? Register'
+        forgetPassword: 'Esqueceu sua senha?',
+        createNewUser: 'Não tem uma conta? Cadastre-se'
     },
     errorsMessage: {
         email: {
-            valid: 'Enter a valid email',
-            required: 'Email is mandatory'
+            valid: 'Digite um email válido',
+            required: 'Email é obrigatório'
         },
         password: {
-            required: 'Password is mandatory',
-            min: 'The minimum number of characters for the password is 8'
+            required: 'Senha é obrigatório',
+            min: 'A senha deve ter pelo menos 8 caracteres'
         }
     }
 };

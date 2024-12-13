@@ -304,11 +304,11 @@
         "options": {
             "type": "MultSelectInput",
             "options": [
-            "Espelho de corpo inteiro",
-            "Poltrona ou cadeira",
-            "TV",
-            "Plantas",
-            "Iluminação de cabeceira"
+                "Espelho de corpo inteiro",
+                "Poltrona ou cadeira",
+                "TV",
+                "Plantas",
+                "Iluminação de cabeceira"
             ]
         }
     },
