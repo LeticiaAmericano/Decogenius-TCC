@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Visualizador VR - BabylonJS</title>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      #renderCanvas {
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+      .input-container {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+      }
+      input {
+        padding: 5px;
+        font-size: 16px;
+        width: 120px;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="input-container">
+      <input type="text" 
+             id="modelCode" 
+             maxlength="8" 
+             placeholder="Digite o código"
+             pattern="[A-Za-z0-9]{8}">
+    </div>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+      const canvas = document.getElementById("renderCanvas");
+      const engine = new BABYLON.Engine(canvas, true);
+      let model = null;
+      let scene;
+
+      const createScene = async function() {
+        scene = new BABYLON.Scene(engine);
+        
+        // Câmera e controles
+        const camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 1.6, -3), scene);
+        camera.attachControl(canvas, true);
+        camera.checkCollisions = true;
+        camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+        
+        // Luz
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        
+        // Ambiente
+        const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
+        const groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);
+        groundMaterial.diffuseColor = new BABYLON.Color3(0.48, 0.78, 0.64);
+        ground.material = groundMaterial;
+
+        // Configuração VR
+        const xr = await scene.createDefaultXRExperienceAsync({
+          floorMeshes: [ground]
+        });
+
+        // Habilitar recursos de movimento no VR
+        if (xr.baseExperience) {
+          xr.input.onControllerAddedObservable.add((controller) => {
+            controller.onMotionControllerInitObservable.add((motionController) => {
+              const xr_ids = motionController.getComponentIds();
+              
+              // Manipulação do modelo com controles VR
+              motionController.onModelLoadedObservable.add(() => {
+                // Grip button para agarrar
+                const gripComponent = motionController.getComponent(xr_ids[2]);
+                gripComponent.onButtonStateChangedObservable.add(() => {
+                  if (model && gripComponent.pressed) {
+                    model.parent = controller.grip;
+                  } else if (model) {
+                    model.parent = null;
+                  }
+                });
+
+                // Thumbstick para rotação
+                const thumbstickComponent = motionController.getComponent(xr_ids[3]);
+                thumbstickComponent.onAxisValueChangedObservable.add((axes) => {
+                  if (model && model.parent === controller.grip) {
+                    model.rotate(
+                      BABYLON.Vector3.Up(), 
+                      axes.x * 0.1,
+                      BABYLON.Space.LOCAL
+                    );
+                  }
+                });
+              });
+            });
+          });
+        }
+
+        return scene;
+      };
+
+      // Carregamento do modelo
+      document.getElementById('modelCode').addEventListener('input', async (event) => {
+        const code = event.target.value.toUpperCase();
+        console.log('Código digitado:', code); // Debug
+
+        if (code.length === 8) {
+          if (model) {
+            model.dispose();
+            model = null;
+          }
+          
+          try {
+            const modelUrl = `/public/get-model/${code}`;
+            console.log('Tentando carregar modelo:', modelUrl); // Debug
+
+            const result = await BABYLON.SceneLoader.ImportMeshAsync(
+              null,  // nome do mesh (null para importar todos)
+              "",    // url base
+              modelUrl,
+              scene
+            );
+            
+            console.log('Resultado do carregamento:', result); // Debug
+            
+            if (result.meshes && result.meshes.length > 0) {
+              model = result.meshes[0];
+              model.position = new BABYLON.Vector3(0, 1.5, -1);
+              model.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1); // Reduzindo a escala
+              console.log('Modelo carregado com sucesso:', model);
+            } else {
+              console.error('Nenhum mesh encontrado no modelo');
+            }
+          } catch (error) {
+            console.error('Erro detalhado ao carregar o modelo:', error);
+          }
+        }
+      });
+
+      // Inicialização da cena
+      let currentScene;
+      createScene().then(newScene => {
+        currentScene = newScene;
+        engine.runRenderLoop(() => {
+          currentScene.render();
+        });
+      });
+
+      // Redimensionamento da janela
+      window.addEventListener("resize", () => {
+        engine.resize();
+      });
+    </script>
+  </body>
+</html> 

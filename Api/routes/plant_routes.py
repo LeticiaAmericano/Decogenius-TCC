@@ -23,59 +23,52 @@ def create_room_model(rooms):
     
     for room in rooms:
         dimensions = room["dimensions"]
-        height = float(dimensions["height"]) / 100
-        width = float(dimensions["width"]) / 100
-        depth = float(dimensions["depth"]) / 100
+        height = float(dimensions["height"])
+        width = float(dimensions["width"])
+        depth = float(dimensions["depth"])
 
-        # Mantemos os mesmos vértices
         vertices = np.array([
-            [0.0, 0.0, 0.0],       # 0: front-left-bottom
-            [width, 0.0, 0.0],     # 1: front-right-bottom
-            [width, 0.0, depth],    # 2: back-right-bottom
-            [0.0, 0.0, depth],      # 3: back-left-bottom
-            [0.0, height, 0.0],     # 4: front-left-top
-            [width, height, 0.0],   # 5: front-right-top
-            [0.0, height, depth]    # 6: back-left-top
+            [0.0, 0.0, 0.0],
+            [width, 0.0, 0.0],
+            [width, 0.0, depth],
+            [0.0, 0.0, depth],
+            [0.0, height, 0.0],
+            [width, height, 0.0],
+            [0.0, height, depth]
         ])
 
-        # Adicionamos faces duplicadas com orientação inversa
         faces = np.array([
-            # Floor (frente e verso)
-            [0, 1, 2],    # floor front
-            [0, 2, 3],    # floor front
-            [2, 1, 0],    # floor back
-            [3, 2, 0],    # floor back
+            [0, 1, 2],
+            [0, 2, 3],
+            [2, 1, 0],
+            [3, 2, 0],
             
-            # Front wall (frente e verso)
-            [0, 1, 4],    # front wall front
-            [1, 5, 4],    # front wall front
-            [4, 1, 0],    # front wall back
-            [4, 5, 1],    # front wall back
+            [0, 1, 4],
+            [1, 5, 4],
+            [4, 1, 0],
+            [4, 5, 1],
             
-            # Left wall (frente e verso)
-            [3, 0, 6],    # left wall front
-            [0, 4, 6],    # left wall front
-            [6, 0, 3],    # left wall back
-            [6, 4, 0]     # left wall back
+            [3, 0, 6],
+            [0, 4, 6],
+            [6, 0, 3],
+            [6, 4, 0]
         ])
 
-        # Cores para todas as faces (incluindo as duplicadas)
         face_colors = np.array([
-            [0.3, 0.3, 0.3, 1.0],  # floor front 1
-            [0.3, 0.3, 0.3, 1.0],  # floor front 2
-            [0.3, 0.3, 0.3, 1.0],  # floor back 1
-            [0.3, 0.3, 0.3, 1.0],  # floor back 2
-            [0.7, 0.7, 0.7, 1.0],  # front wall front 1
-            [0.7, 0.7, 0.7, 1.0],  # front wall front 2
-            [0.7, 0.7, 0.7, 1.0],  # front wall back 1
-            [0.7, 0.7, 0.7, 1.0],  # front wall back 2
-            [0.7, 0.7, 0.7, 1.0],  # left wall front 1
-            [0.7, 0.7, 0.7, 1.0],  # left wall front 2
-            [0.7, 0.7, 0.7, 1.0],  # left wall back 1
-            [0.7, 0.7, 0.7, 1.0]   # left wall back 2
+            [0.3, 0.3, 0.3, 1.0],
+            [0.3, 0.3, 0.3, 1.0],
+            [0.3, 0.3, 0.3, 1.0],
+            [0.3, 0.3, 0.3, 1.0],
+            [0.7, 0.7, 0.7, 1.0],
+            [0.7, 0.7, 0.7, 1.0],
+            [0.7, 0.7, 0.7, 1.0],
+            [0.7, 0.7, 0.7, 1.0],
+            [0.7, 0.7, 0.7, 1.0],
+            [0.7, 0.7, 0.7, 1.0],
+            [0.7, 0.7, 0.7, 1.0],
+            [0.7, 0.7, 0.7, 1.0]
         ])
 
-        # Create mesh from vertices and faces
         room_model = trimesh.Trimesh(
             vertices=vertices,
             faces=faces,
@@ -113,12 +106,6 @@ def create_plant():
                 code=''.join(random.choices(string.ascii_uppercase + string.digits, k=8)),
                 user_id=user_id
             )
-            
-            file_path = os.path.join('uploads', room_model.file_name)
-            os.makedirs('uploads', exist_ok=True)
-            with open(file_path, 'wb') as f:
-                f.write(file_data)
-            room_model.file_path = file_path
             
             db.session.add(room_model)
             room_models_data.append({
