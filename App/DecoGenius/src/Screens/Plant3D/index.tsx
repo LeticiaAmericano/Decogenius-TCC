@@ -46,7 +46,7 @@ const Plant3D: React.FC = (): JSX.Element => {
     const changeRoom = (direction: 'next' | 'prev') => {
         const newRoom = direction === 'next' 
             ? (currentRoom + 1) % rooms.length 
-            : currentRoom > 0 ? currentRoom - 1 : roomlength - 1;
+            : currentRoom > 0 ? currentRoom - 1 : rooms.length - 1;
         
         Animated.sequence([
             Animated.timing(rotationAnim, {
@@ -208,6 +208,10 @@ const Plant3D: React.FC = (): JSX.Element => {
                 <RoomControlsContainer>
                     <RoomControlButton onPress={() => changeRoom('prev')}>
                         <RoomControlText>Anterior</RoomControlText>
+                    </RoomControlButton>
+
+                    <RoomControlButton onPress={() => {}}>
+                    <RoomControlText>Code: {rooms[currentRoom].code}</RoomControlText>
                     </RoomControlButton>
 
                     <RoomControlButton onPress={() => changeRoom('next')}>
